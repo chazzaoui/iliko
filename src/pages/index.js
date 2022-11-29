@@ -17,6 +17,14 @@ import Bol from "../../static/images/bol.png"
 import Fonq from "../../static/images/fonq.png"
 import { TabSelector } from "../TabSelector"
 
+const companies = {
+  Ikea: Ikea, 
+  Flinders: Flinders, 
+  Home24: Home24, 
+  Bol: Bol, 
+  Fonq: Fonq,
+}
+
 const furnitureObject = {
   Sofas: 21,
   Beds: 19,
@@ -83,11 +91,18 @@ export default function Home() {
     Other: "",
   })
 
+  const [selectedFurniture, setSelectedFurniture] = React.useState("Sofas") // defaulting to Sofas
+  const [closestFurniture, setClosestFurniture] = React.useState("")
+  const [cheaperFurniture, setCheaperFurniture] = React.useState("")
+  const [costlierFurniture, setCostlierFurniture] = React.useState("")
+
   const [selectedTab, setSelectedTab] = useTabs([])
   const [activeTab, setActiveTab] = React.useState("")
 
   const handleFurniturePress = (e, name) => {
     e.preventDefault()
+
+    setSelectedFurniture(name)
 
     if (furniture.includes(name)) {
       const newFurniture = furniture.filter(item => item !== name)
@@ -120,7 +135,45 @@ export default function Home() {
       const price = Math.round(budget * (factor / 100))
       newFurniture[item] = price
     })
+    // console.log(newFurniture);
     setCalculatedFurniture({ ...newFurniture })
+
+    const furnitureAverageObj = Object.keys(averagesArray[selectedFurniture]).map((key)=>
+        [averagesArray[selectedFurniture][key], key]
+    ).sort((item1, item2)=>{
+      return item1[0] - item2[0]
+    })
+
+    // console.log(furnitureAverageObj)
+
+    let cheaper="", costlier="", closest=""
+    let closestPrice = 0
+    
+    for (let index in furnitureAverageObj) {
+      let price = furnitureAverageObj[index][0]
+      let companyName = furnitureAverageObj[index][1]
+      if( Math.abs(price - parseInt(budget)) < Math.abs(closestPrice - parseInt(budget)) ){
+        closest = companyName
+        closestPrice = price
+      }
+    }
+
+    for (let index in furnitureAverageObj){
+      let price = furnitureAverageObj[index][0]
+      let companyName = furnitureAverageObj[index][1]
+      if(price <= closestPrice){
+        if(companyName!=closest){
+          cheaper = companyName
+        }
+      }else {
+        costlier = companyName
+        break     
+      }
+    }
+
+    setCheaperFurniture(cheaper);
+    setClosestFurniture(closest);
+    setCostlierFurniture(costlier);
 
     const elem = document.getElementById("resultsDiv")
     elem.scrollIntoView()
@@ -318,16 +371,29 @@ export default function Home() {
                       <p>Iliko engine recommendation</p>
                       <img
                         className="furnitureIcon"
-                        src={Ikea}
-                        alt="Furniture"
+                        src={companies[closestFurniture]}
+                        alt="**Found None**"
                       />
                     </div>
-                    <div className="flex flex-col justify-center content-center w-1/4  p-4">
+
+                    <div className="flex flex-col justify-center content-center w-1/3 border border-black rounded-xl p-4">
                       <p>If you are ok to spend a little less</p>
+                      <img
+                        className="furnitureIcon"
+                        src={companies[cheaperFurniture]}
+                        alt="**Found None**"
+                      />
                     </div>
-                    <div className="flex flex-col justify-center content-center w-1/4  p-4">
+
+                    <div className="flex flex-col justify-center content-center w-1/3 border border-black rounded-xl p-4">
                       <p>If you are ok to spend a little more</p>
+                      <img
+                        className="furnitureIcon"
+                        src={companies[costlierFurniture]}
+                        alt="**Found None**"
+                      />
                     </div>
+
                   </div>
                   {/* <p className="labelText">
                     OR try this platform for all your furniture needs
