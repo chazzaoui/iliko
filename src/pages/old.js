@@ -137,6 +137,7 @@ export default function Home() {
       newFurniture[item] = price
     })
     // console.log(newFurniture);
+    
     setCalculatedFurniture({ ...newFurniture })
 
     const furnitureAverageObj = Object.keys(averagesArray[selectedFurniture])

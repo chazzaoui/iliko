@@ -10,6 +10,7 @@ module.exports = {
         Pinkish: "#D8D1D2",
         White: "#ffffff",
         Black: "#000000",
+        DarkPink: "#d29da5",
       },
       fontFamily: {
         Monst: ["Montserrat", "sans-serif"],
