@@ -75,6 +75,7 @@ function Home() {
   const [furniture, setFurniture] = React.useState([])
   const [budget, setBudget] = React.useState("")
   const [loading, setLoading] = React.useState(false)
+  const [calculated, setCalculated] = React.useState(false)
   const [calculatedFurniture, setCalculatedFurniture] = React.useState({
     Sofas: "",
     Beds: "",
@@ -167,6 +168,7 @@ function Home() {
     setCheaperFurniture(cheaper)
     setClosestFurniture(closest)
     setCostlierFurniture(costlier)
+    setCalculated(true)
 
     const elem = document.getElementById("resultsDiv")
     elem.scrollIntoView()
@@ -191,6 +193,7 @@ function Home() {
         costlierFurniture={costlierFurniture}
         loading={loading}
         companies={companies}
+        calculated={calculated}
       />
     </div>
   )

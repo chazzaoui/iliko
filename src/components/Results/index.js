@@ -9,6 +9,8 @@ import EmptyBox from "./EmptyBox"
 import PromptText from "../Hero/PromptText"
 import SubscribeForm from "./SubscribeForm"
 import { useEffect } from "react"
+import SingleChair from "../../../static/images/singleChair.png"
+import combinedChair from "../../../static/images/combinedBg.png"
 
 function Results({
   loading,
@@ -18,104 +20,149 @@ function Results({
   calculatedFurniture,
   cheaperFurniture,
   costlierFurniture,
+  calculated,
 }) {
   const [activeTab, setActiveTab] = useState(selectedFurniture)
-
+  const [fieldExists, setfieldExists] = useState(false)
+  useEffect(() => {
+    {
+      Object.keys(calculatedFurniture).map(item => {
+        if (calculatedFurniture[item] > 0) {
+          setfieldExists(true)
+        }
+      })
+    }
+  }, [calculatedFurniture])
   return (
-    <div className="chairbg min-h-[100vh] pb-[2rem]" id="resultsDiv">
+    <div
+      className={`chairbg relative min-h-100 pb-[2rem] ${
+        calculated ? "bg-right" : "bg-top"
+      }`}
+      id="resultsDiv"
+    >
       {loading ? (
         <Lottie animationData={FurnitureLoader} />
       ) : (
-        <div>
-          <ContentWrapper>
-            <section className="mt-[3rem] ">
-              <SectionTitle
-                text={"Here's what you can expect to spent on furniture"}
-              />
-              <div>
-                <select
-                  value={activeTab}
-                  onChange={e => {
-                    setActiveTab(e.target.value)
-                  }}
-                  className="p-3 rounded-md min-w-[10rem] mt-[2rem]"
-                >
-                  {Object.keys(calculatedFurniture).map(item => {
-                    if (calculatedFurniture?.[item]) {
-
-                      return (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      )
-                    }
-                  })}
-                </select>
-                <div className="textPart">
-                  <div className="mt-6 flex">
-                    {" "}
-                    <SmallText text={"Expect to spend:"} />{" "}
-                    <span className="font-bold">
-                      €
-                      {calculatedFurniture[activeTab] ||
-                        calculatedFurniture[selectedFurniture]}
-                    </span>
-                  </div>
-                  <div className="mt-6">
-                    <SmallText
-                      text={
-                        "We already searched the web for the best possible furniture matches for you..."
-                      }
-                    />{" "}
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <div className="mt-6 max-w-[80%] flex flex-col items-center justify-center">
-                      <div className="mt-2 flex items-center justify-center flex-col text-center  hover:border-2 p-2 hover:rounded-md cursor-pointer border-black">
-                        <SmallText text={"iliko engine recommendation"} />
-
-                        {closestFurniture ? (
-                          <img src={companies[closestFurniture]} />
-                        ) : (
-                          <EmptyBox />
-                        )}
-                      </div>
-                      <div className="mt-[2rem] flex items-center justify-center flex-col text-center hover:border-2 p-2 hover:rounded-md cursor-pointer border-black">
-                        <SmallText
-                          text={"If you are ok to spend a little less"}
-                        />
-                        {cheaperFurniture ? (
-                          <img src={companies[cheaperFurniture]} alt="Image2" />
-                        ) : (
-                          <EmptyBox />
-                        )}
-                      </div>
-                      <div className="mt-[2rem] flex items-center justify-center flex-col text-center hover:border-2 p-2 hover:rounded-md cursor-pointer border-black">
-                        <SmallText
-                          text={"If you are ok to spend a little more"}
-                        />
-                        {costlierFurniture ? (
-                          <img src={companies[costlierFurniture]} />
-                        ) : (
-                          <EmptyBox />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="tryForAll mt-[2rem] flex items-center flex-col">
-                    <PromptText
-                      text={"OR try this platform for all your furniture needs"}
+        <div className="flex flex-row items-center xlg:items-start xlg:justify-start xlg:ml-[8rem] justify-center w-100 z-9 relative ">
+          <div className="flex flex-col justify-center">
+            <ContentWrapper>
+              <section className="mt-[3rem] ">
+                <div>
+                  {calculated && (
+                    <SectionTitle
+                      text={"Here's what you can expect to spent on furniture"}
                     />
-                    <EmptyBox />
+                  )}
+                  <div className="textPart">
+                    {fieldExists && (
+                      <div>
+                        <select
+                          value={activeTab}
+                          onChange={e => {
+                            setActiveTab(e.target.value)
+                          }}
+                          className="p-3 rounded-md min-w-[10rem] mt-[2rem]"
+                        >
+                          {Object.keys(calculatedFurniture).map(item => {
+                            if (calculatedFurniture?.[item]) {
+                              return (
+                                <option key={item} value={item}>
+                                  {item}
+                                </option>
+                              )
+                            }
+                          })}
+                        </select>
+                        <div className="mt-6 flex">
+                          {" "}
+                          <SmallText text={"Expect to spend:"} />{" "}
+                          <span className="font-bold">
+                            €
+                            {calculatedFurniture[activeTab] ||
+                              calculatedFurniture[selectedFurniture]}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    {calculated && (
+                      <>
+                        <div className="mt-6 lg:mt-[3rem]">
+                          <SmallText
+                            text={
+                              "We already searched the web for the best possible furniture matches for you..."
+                            }
+                          />{" "}
+                        </div>
+                        <div className="flex items-center justify-center lg:justify-start ">
+                          <div className="mt-6 lg:mt-2 max-w-[80%] lg:w-[70%] flex flex-col lg:flex-row items-center lg:items-end lg:justify-start justify-center">
+                            <div className="mt-2 flex items-center justify-center flex-col  text-center  border-2 border-transparent p-2 hover:rounded-md cursor-pointer hover:border-black">
+                              <SmallText text={"iliko engine recommendation"} />
+
+                              {closestFurniture ? (
+                                <img
+                                  className="lg:w-[150px] lg:h-[120px]  mt-2"
+                                  src={companies[closestFurniture]}
+                                />
+                              ) : (
+                                <EmptyBox />
+                              )}
+                            </div>
+                            <div className="mt-[2rem] flex items-center justify-center flex-col text-center border-2 p-2 hover:rounded-md cursor-pointer border-transparent hover:border-black">
+                              <SmallText
+                                text={"If you are ok to spend a little less"}
+                              />
+                              {cheaperFurniture ? (
+                                <img
+                                  className="lg:w-[150px] lg:h-[120px]  mt-2"
+                                  src={companies[cheaperFurniture]}
+                                  alt="Image2"
+                                />
+                              ) : (
+                                <EmptyBox />
+                              )}
+                            </div>
+                            <div className="mt-[2rem] flex items-center justify-center flex-col text-center border-2 p-2 hover:rounded-md cursor-pointer  border-transparent hover:border-black">
+                              <SmallText
+                                text={"If you are ok to spend a little more"}
+                              />
+                              {costlierFurniture ? (
+                                <img
+                                  className="lg:w-[150px] lg:h-[120px]  mt-2"
+                                  src={companies[costlierFurniture]}
+                                />
+                              ) : (
+                                <EmptyBox />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tryForAll mt-[2rem] flex items-center lg:items-start flex-col">
+                          <PromptText
+                            text={
+                              "OR try this platform for all your furniture needs"
+                            }
+                          />
+                          <EmptyBox />
+                        </div>
+                        <div className="line w-[100%] lg:w-[60%] mt-[2rem] bg-black h-[1px]"></div>
+                      </>
+                    )}
+
+                    <SubscribeForm />
                   </div>
-                  <div className="line w-[100%] mt-[2rem] bg-black h-[1px]"></div>
-                  <SubscribeForm />
                 </div>
-              </div>
-            </section>
-          </ContentWrapper>
-          <div className="singlechair"></div>
+              </section>
+            </ContentWrapper>
+          </div>
         </div>
       )}
+      {/* <div
+        className={`singlechair hidden ${
+          calculated ? "lg:block" : "lg:hidden"
+        } absolute  bottom-0 min-w-[100] min-h-[100%] right-0 z-0`}
+      >
+        <img className="h-[100%]" src={combinedChair} alt="singlechair" />
+      </div> */}
     </div>
   )
 }

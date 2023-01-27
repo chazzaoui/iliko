@@ -15,6 +15,14 @@ module.exports = {
       fontFamily: {
         Monst: ["Montserrat", "sans-serif"],
       },
+      screens: {
+        sm: "320px",
+        lsm: "375px",
+        usm: "420px",
+        md: "768px",
+        lg: "1024px",
+        xlg: "1440px",
+      },
     },
   },
   plugins: [],

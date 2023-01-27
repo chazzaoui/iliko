@@ -6,6 +6,7 @@ import Table from "../../../static/images/table.png"
 import Couch from "../../../static/images/couch.png"
 import Bed from "../../../static/images/bed.png"
 import Other from "../../../static/images/other.png"
+import Boomerang from "../../../static/images/boomerang.png"
 
 function Calculation({
   furniture,
@@ -23,16 +24,24 @@ function Calculation({
   ]
 
   return (
-    <div id="calculate" className="py-4">
-      <div className="flex flex-col items-start justify-center">
-        <div className="">
+    <div
+      id="calculate"
+      className="py-4 flex items-center justify-center relative"
+    >
+      <img
+        src={Boomerang}
+        alt="Boomerang"
+        className="max-w-100 md:max-w-[70%] lg:max-w-[100%] absolute z-0 boomerang"
+      />
+      <div className="flex flex-col text-center items-center justify-center lg:items-start z-9 relative">
+        <div className="flex flex-col items-center lg:items-start">
           <label>
             <PromptText text={"What is your budget?"} />
           </label>
           <input
             id="budgetInput"
             name="budgetInput"
-            className="budgetInput min-w-[8rem] p-2 rounded-md mt-4 outline-2 outline-DarkPink"
+            className="budgetInput min-w-[8rem] p-2 rounded-md mt-4 lg:mt-2 outline-2 outline-DarkPink"
             type="number"
             onSubmit={handleBudget}
             onBlur={handleBudget}
@@ -45,7 +54,7 @@ function Calculation({
               text={"Are you interested in sustainable furniture ?"}
             />
           </label>
-          <div className="flex items-center mt-2">
+          <div className="flex items-center justify-center mt-2 lg:justify-start">
             <div className="">
               <PromptText text={"yes"} />
 
@@ -67,16 +76,16 @@ function Calculation({
             </div>
           </div>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 lg:mt-3">
           <PromptText text={"What furniture do you need?"} />
-          <div className="grid grid-cols-3 gap-[1.2rem]">
+          <div className="grid grid-cols-3  md:justify-center md:items-center gap-[1.2rem]">
             {furnitures.map((item, i) => (
               <button
                 key={i}
                 onClick={e => handleFurniturePress(e, item.name)}
                 className={
                   !furniture.includes(item.name)
-                    ? " flex flex-col items-center justify-center bg-white rounded-md shadow-md p-2 mt-4"
+                    ? " flex flex-col items-center justify-center bg-white rounded-md shadow-md p-2 mt-4 lg:mt-2"
                     : "flex flex-col items-center justify-center rounded-md shadow-xl mt-4 p-2"
                 }
               >
@@ -93,7 +102,7 @@ function Calculation({
         <button
           onClick={handleSubmit}
           type="submit"
-          className="text-black bg-white rounded-md text-center px-3 py-2 min-w-[12rem] mt-[4rem]"
+          className="text-black bg-white rounded-md text-center px-3 py-2 min-w-[12rem] mt-[4rem] lg:mt-[2rem]"
         >
           <PromptText text={"Submit"} />
         </button>

@@ -26,13 +26,42 @@
 }
 
 .bg-couch {
-  background-image: url("../static//images/couchPic1.png");
+  background-image: url("../static/images/couchPic.png");
   background-repeat: no-repeat;
   background-size: cover;
-  background-blend-mode: darken;
+  background-position: bottom;
+  mix-blend-mode: darken;
 }
 .chairbg {
   background: url("../static/images/chairBackground.png");
   background-repeat: no-repeat;
   background-size: cover;
+}
+.boomerang {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.singlechair {
+  mix-blend-mode: darken;
+}
+
+select {
+  border-radius: 10px;
+  outline: none;
+}
+select::after,
+select::before {
+  border-radius: 1rem;
+}
+option * {
+  padding: 3rem;
+}
+@media screen and (min-width: 1024px) {
+  .chairbg {
+    background: url("../static/images/combinedBg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }
