@@ -7,8 +7,8 @@ import Flinders from "../../static/images/flinders.jpeg"
 import Home24 from "../../static/images/home24.png"
 import Bol from "../../static/images/bol.png"
 import Fonq from "../../static/images/fonq.png"
-import { TabSelector } from "../TabSelector"
-import { TabPanel, useTabs } from "react-headless-tabs"
+import { collection, addDoc } from "firebase/firestore"
+import { db } from "../../firebase"
 
 const companies = {
   Ikea: Ikea,
@@ -90,6 +90,24 @@ function Home() {
   const [cheaperFurniture, setCheaperFurniture] = React.useState("")
   const [costlierFurniture, setCostlierFurniture] = React.useState("")
 
+  const addToDb = async () => {
+    try {
+      const furnitures = []
+      Object.keys(calculatedFurniture).map(item => {
+        if (typeof calculatedFurniture[item] == "number") {
+          furnitures.push(item)
+        }
+      })
+      const docRef = await addDoc(collection(db, "furnitures"), {
+        budget: budget,
+        selectedFurnitures: furnitures,
+      })
+      console.log(docRef.id)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const handleFurniturePress = (e, name) => {
     e.preventDefault()
 
@@ -165,6 +183,10 @@ function Home() {
         break
       }
     }
+    ;(async () => {
+      await addToDb()
+    })()
+
     setCheaperFurniture(cheaper)
     setClosestFurniture(closest)
     setCostlierFurniture(costlier)
