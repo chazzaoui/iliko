@@ -121,29 +121,27 @@ function Results({
                                 <EmptyBox />
                               )}
                             </div>
-                            <div className="mt-[2rem] flex items-center justify-center flex-col text-center border-2 p-2 hover:rounded-md cursor-pointer  border-transparent hover:border-black">
-                              <SmallText
-                                text={"If you are ok to spend a little more"}
-                              />
-                              {costlierFurniture ? (
+                            {costlierFurniture ? (
+                              <div className="mt-[2rem] flex items-center justify-center flex-col text-center border-2 p-2 hover:rounded-md cursor-pointer  border-transparent hover:border-black">
+                                <SmallText
+                                  text={"If you are ok to spend a little more"}
+                                />
                                 <img
                                   className="lg:w-[150px] lg:h-[120px]  mt-2"
                                   src={companies[costlierFurniture]}
                                 />
-                              ) : (
-                                <EmptyBox />
-                              )}
-                            </div>
+                              </div>
+                            ) : null}
                           </div>
                         </div>
-                        <div className="tryForAll mt-[2rem] flex items-center lg:items-start flex-col">
+                        {/* <div className="tryForAll mt-[2rem] flex items-center lg:items-start flex-col">
                           <PromptText
                             text={
                               "OR try this platform for all your furniture needs"
                             }
                           />
                           <EmptyBox />
-                        </div>
+                        </div> */}
                         <div className="line w-[100%] lg:w-[60%] mt-[2rem] bg-black h-[1px]"></div>
                       </>
                     )}
