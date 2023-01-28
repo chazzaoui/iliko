@@ -6,15 +6,7 @@ function CustomForm({ status, message, onValidated }) {
   const [email, setEmail] = useState(email)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
-  useEffect(() => {
-    if (status == "success") {
-      setSuccess("Thank you for subscribing")
-      setEmail("")
-    } else if (status == "sending") {
-    } else {
-      setError(message)
-    }
-  }, [status])
+
   const changeHandler = e => {
     setEmail(e.target.value)
     setError("")
@@ -33,6 +25,16 @@ function CustomForm({ status, message, onValidated }) {
       })
     }
   }
+
+  useEffect(() => {
+    if (status == "success") {
+      setSuccess("Thank you for subscribing")
+      setEmail("")
+    } else if (status == "sending") {
+    } else {
+      setError(message)
+    }
+  }, [status])
   return (
     <form onSubmit={handleSubmit}>
       <div className="h-[4.3rem] mb-4 mt-2">
@@ -52,7 +54,7 @@ function CustomForm({ status, message, onValidated }) {
             type="submit"
             className="bg-DarkPink rounded-tr-md rounded-br-md  text-white p-3 h-[50px]"
           >
-            {status === "sending" ? <Loading  /> : "submit"}
+            {status === "sending" ? <Loading /> : "submit"}
           </button>
         </div>
       </div>
